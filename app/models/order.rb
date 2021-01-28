@@ -10,8 +10,9 @@ class Order < ApplicationRecord
   enum status: STATUSES
 
   belongs_to :school
+  has_many :gifts
 
-  # accepts_nested_attributes_for :gifts
+  accepts_nested_attributes_for :gifts
 
   validates :school, :status, presence: true
 

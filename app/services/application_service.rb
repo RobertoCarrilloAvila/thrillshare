@@ -9,15 +9,14 @@ class ApplicationService
 	end
 
 	def validation_errors
-		error_list = JSON::Validator.fully_validate(valid_schema, @params.to_unsafe_hash)
+		error_list = JSON::Validator.fully_validate(valid_schema, @params.to_hash)
 		error_list.map { |error| error.gsub(/(#\/)|( in schema.*)/, '') }
 	end
 
-	def response_error(errors, payload = {})
+	def response_error(errors)
 		{
 		  success: false,
-		  payload: payload,
-		  errors: errors
+		  errors: Array.wrap(errors).flatten
 		}
 	end
 

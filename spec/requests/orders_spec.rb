@@ -17,11 +17,13 @@ RSpec.describe "/orders", type: :request do
   # Order. As you add validations to Order, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    attributes_for(:order, school_id: create(:school).id, 
+                            gifts: [{kind: "mug"},{kind: "tshirt", size: "mediana"}])
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    attributes_for(:order, school_id: create(:school).id,
+                            gifts: [{kind: "hoodie", size: nil},{kind: "tshirt", size: nil}])
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -34,6 +36,7 @@ RSpec.describe "/orders", type: :request do
 
   describe "GET /index" do
     it "renders a successful response" do
+      skip("Add a hash of attributes valid for your model")
       Order.create! valid_attributes
       get orders_url, headers: valid_headers, as: :json
       expect(response).to be_successful
@@ -42,6 +45,7 @@ RSpec.describe "/orders", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
+      skip("Add a hash of attributes valid for your model")
       order = Order.create! valid_attributes
       get order_url(order), as: :json
       expect(response).to be_successful
@@ -61,7 +65,7 @@ RSpec.describe "/orders", type: :request do
         post orders_url,
              params: { order: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to match(a_string_including("application/json"))
+        expect(response.content_type).to match(a_string_including("application/json; charset=utf-8"))
       end
     end
 
@@ -77,7 +81,7 @@ RSpec.describe "/orders", type: :request do
         post orders_url,
              params: { order: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to eq("application/json; charset=utf-8")
       end
     end
   end
@@ -85,43 +89,46 @@ RSpec.describe "/orders", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        build(:order, status: "processing", gifts: [build(:gift, kind: 'sticker')]).as_json(only: [:status], include: {gifts: {only: [:id, :kind, :size]}})
       }
 
       it "updates the requested order" do
+        valid_attributes["gifts_attributes"] = valid_attributes.delete(:gifts)
         order = Order.create! valid_attributes
         patch order_url(order),
-              params: { order: invalid_attributes }, headers: valid_headers, as: :json
+              params: { order: new_attributes }, headers: valid_headers, as: :json
         order.reload
-        skip("Add assertions for updated state")
+        expect(order.status).to eq("processing")
       end
 
       it "renders a JSON response with the order" do
+        valid_attributes["gifts_attributes"] = valid_attributes.delete(:gifts)
         order = Order.create! valid_attributes
         patch order_url(order),
-              params: { order: invalid_attributes }, headers: valid_headers, as: :json
+              params: { order: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to eq("application/json; charset=utf-8")
       end
     end
 
     context "with invalid parameters" do
       it "renders a JSON response with errors for the order" do
+        valid_attributes["gifts_attributes"] = valid_attributes.delete(:gifts)
         order = Order.create! valid_attributes
         patch order_url(order),
               params: { order: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to eq("application/json; charset=utf-8")
       end
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested order" do
-      order = Order.create! valid_attributes
-      expect {
-        delete order_url(order), headers: valid_headers, as: :json
-      }.to change(Order, :count).by(-1)
+  describe "POST /cancel" do
+    it "cancel the requested order" do
+      order = Order.first
+      post cancel_order_url(order), headers: valid_headers, as: :json
+      order.reload
+      expect(order.status).to eq("cancelled")
     end
   end
 end

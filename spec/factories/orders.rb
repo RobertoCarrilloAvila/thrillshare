@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :order do
     school { build(:school) }
-    status { 0 }
+    status { "received" }
   end
 end

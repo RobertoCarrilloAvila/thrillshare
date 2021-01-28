@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
 
   # POST /orders/1/cancel
   def cancel
-    @response = OrderService.new(order_params).update(params[:id])
+    @response = OrderService.new.cancel(params[:id])
 
     if @response[:success]
       render json: @response, status: :created

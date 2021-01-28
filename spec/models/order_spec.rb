@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Order, type: :model do
   
   subject{
-  	debugger
   	create(:order)
   }
 
@@ -15,5 +14,10 @@ RSpec.describe Order, type: :model do
 		subject.school = nil
 		expect(subject).to_not be_valid
 	end
+
+  it "is not valid without status" do
+    subject.status = nil
+    expect(subject).to_not be_valid
+  end
 
 end
