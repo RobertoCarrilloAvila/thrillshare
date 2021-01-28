@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
-  resources :schools, except: [:index, :show]
+  scope :v1 do
+	  resources :schools, except: [:index, :show]
+  end
 
 end
