@@ -11,12 +11,12 @@ RSpec.describe School, type: :model do
   	expect(subject).to be_valid
   end
 
-	it "is not valid without state" do
+	it "is not valid without name" do
 		subject.name = nil
 		expect(subject).to_not be_valid
 	end
 
-	it "is not valid without zip_code" do
+	it "is not valid without address" do
 		subject.address = nil
 		expect(subject).to_not be_valid
 	end
