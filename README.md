@@ -46,3 +46,17 @@ You need to start docker-compose first
 ```
 bundle exec rails s -p 3027
 ```
+
+### Production Service
+
+The proyect is running on heroku in the domain
+
+```
+https://apptegy.herokuapp.com/
+```
+
+You can use postman collection
+
+```
+https://www.getpostman.com/collections/4369c2bf68ee4e0e6cd9
+```
