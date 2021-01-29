@@ -34,20 +34,11 @@ RSpec.describe "/orders", type: :request do
     {}
   }
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      skip("Add a hash of attributes valid for your model")
-      Order.create! valid_attributes
-      get orders_url, headers: valid_headers, as: :json
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /show" do
     it "renders a successful response" do
-      skip("Add a hash of attributes valid for your model")
+      valid_attributes["gifts_attributes"] = valid_attributes.delete(:gifts)
       order = Order.create! valid_attributes
-      get order_url(order), as: :json
+      get order_url(id: order.school_id), as: :json
       expect(response).to be_successful
     end
   end

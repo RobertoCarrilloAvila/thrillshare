@@ -1,5 +1,15 @@
 class OrdersController < ApplicationController
 
+  # GET /orders/1
+  def show
+    @response = OrderService.new.index(params[:id])
+
+    if @response[:success]
+      render json: @response, status: :ok
+    else
+      render json: @response, status: :unprocessable_entity
+    end
+  end
   # POST /orders
   def create
     @response = OrderService.new(order_params).create

@@ -1,5 +1,10 @@
 class OrderService < ApplicationService
 	
+	def index(school_id)
+		orders = Order.where(school_id: school_id)
+		response_success(orders: orders.as_json(include: :gifts))
+	end
+
 	def create
 		return response_error(validation_errors) unless valid?
 		order = Order.create(params_create_format)
