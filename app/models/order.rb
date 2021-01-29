@@ -11,6 +11,7 @@ class Order < ApplicationRecord
 
   belongs_to :school
   has_many :gifts
+  has_many :recipients
 
   accepts_nested_attributes_for :gifts
 
