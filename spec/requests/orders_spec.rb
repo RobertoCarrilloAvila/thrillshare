@@ -122,4 +122,14 @@ RSpec.describe "/orders", type: :request do
       expect(order.status).to eq("cancelled")
     end
   end
+
+  describe "POST /ship" do
+    it "ship the order" do
+      order = Order.first
+      post ship_order_url(order), headers: valid_headers, as: :json
+      order.reload
+      expect(response).to have_http_status(:ok)
+      expect(response.content_type).to eq("application/json; charset=utf-8")
+    end
+  end
 end

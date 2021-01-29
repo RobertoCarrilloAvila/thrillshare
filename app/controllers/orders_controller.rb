@@ -43,6 +43,17 @@ class OrdersController < ApplicationController
     end
   end
 
+  # POST /orders/1/ship
+  def ship
+    @response = OrderService.new.ship(params[:id])
+
+    if @response[:success]
+      render json: @response, status: :ok
+    else
+      render json: @response, status: :unprocessable_entity
+    end
+  end
+
   private
     # Only allow a list of trusted parameters through.
     def order_params

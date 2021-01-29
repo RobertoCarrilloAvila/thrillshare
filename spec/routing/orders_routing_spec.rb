@@ -22,5 +22,9 @@ RSpec.describe OrdersController, type: :routing do
     it "routes to #cancel" do
       expect(post: "/v1/orders/1/cancel").to route_to("orders#cancel", id: "1")
     end
+
+    it "routes to #ship" do
+      expect(post: "/v1/orders/1/ship").to route_to("orders#ship", id: "1")
+    end
   end
 end
