@@ -57,6 +57,9 @@ class OrderService < ApplicationService
 					"type" => "string",
 					"enum" => ["received", "processing", "shipped", "cancelled"]
 				},
+				"notify" => {
+					"type" => "boolean"
+				}
 				"gifts" => {
 					"type" => "array",
 					"minItems" => 1,

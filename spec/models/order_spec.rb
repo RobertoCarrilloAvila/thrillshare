@@ -20,4 +20,9 @@ RSpec.describe Order, type: :model do
     expect(subject).to_not be_valid
   end
 
+  it "is not valid without notify" do
+    subject.notify = nil
+    expect(subject).to_not be_valid
+  end
+
 end

@@ -15,6 +15,6 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :gifts
 
-  validates :school, :status, presence: true
+  validates :school, :status, :notify, presence: true
 
 end

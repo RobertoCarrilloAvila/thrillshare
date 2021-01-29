@@ -22,7 +22,7 @@ RSpec.describe "/orders", type: :request do
   }
 
   let(:invalid_attributes) {
-    attributes_for(:order, school_id: create(:school).id,
+    attributes_for(:order, notify: nil, school_id: create(:school).id,
                             gifts: [{kind: "hoodie", size: nil},{kind: "tshirt", size: nil}])
   }
 
