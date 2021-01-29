@@ -8,7 +8,7 @@ class OrderService < ApplicationService
 	def create
 		return response_error(validation_errors) unless valid?
 		order = Order.create(params_create_format)
-		if order.update(parse_params)
+		if order.valid?
 			response_success(order: order.as_json(include: :gifts))
 		else
 			response_error(order.errors.full_messages)
