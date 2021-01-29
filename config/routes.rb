@@ -1,3 +1,13 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  
+  scope :v1 do
+	  resources :schools, except: [:index, :show]
+  	resources :recipients, only: [:create, :update, :show, :destroy]
+	  
+	  resources :orders, only: [:create, :update, :show] do
+	  	post :cancel, on: :member
+	  end
+  	
+  end
+
 end
