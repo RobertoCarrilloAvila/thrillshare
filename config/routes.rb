@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 	  
 	  resources :orders, only: [:create, :update, :show] do
 	  	post :cancel, on: :member
+	  	post :ship, on: :member
 	  end
   	
   end

@@ -1,8 +1,4 @@
-# gifts_api_test
-
-This is a skeleton of a rails app to serve as a starting point for the code challenge you are about to solve.
-
-Rails and Ruby versions: Defined on the Gemfile
+# Gifts API
 
 ##Configuration
 

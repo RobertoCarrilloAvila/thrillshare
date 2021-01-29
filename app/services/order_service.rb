@@ -35,6 +35,16 @@ class OrderService < ApplicationService
 		end
 	end
 
+	def ship(order_id)
+		order = Order.find(order_id)
+		if order.update(status: :shipped)
+			ShippingMailer.with(order_id: order.id).ship_order.deliver_later
+			response_success(order: order)
+		else
+			response_error(order.errors.full_messages)
+		end
+	end
+
 	def params_create_format
 		parse_params
 		@params[:gifts_attributes].map { |gift| gift.permit(:kind, :size) }
@@ -56,6 +66,9 @@ class OrderService < ApplicationService
 				"status" => {
 					"type" => "string",
 					"enum" => ["received", "processing", "shipped", "cancelled"]
+				},
+				"notify" => {
+					"type" => "boolean"
 				},
 				"gifts" => {
 					"type" => "array",

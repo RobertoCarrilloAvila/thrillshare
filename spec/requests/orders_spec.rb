@@ -22,7 +22,7 @@ RSpec.describe "/orders", type: :request do
   }
 
   let(:invalid_attributes) {
-    attributes_for(:order, school_id: create(:school).id,
+    attributes_for(:order, notify: nil, school_id: create(:school).id,
                             gifts: [{kind: "hoodie", size: nil},{kind: "tshirt", size: nil}])
   }
 
@@ -120,6 +120,16 @@ RSpec.describe "/orders", type: :request do
       post cancel_order_url(order), headers: valid_headers, as: :json
       order.reload
       expect(order.status).to eq("cancelled")
+    end
+  end
+
+  describe "POST /ship" do
+    it "ship the order" do
+      order = Order.first
+      post ship_order_url(order), headers: valid_headers, as: :json
+      order.reload
+      expect(response).to have_http_status(:ok)
+      expect(response.content_type).to eq("application/json; charset=utf-8")
     end
   end
 end
