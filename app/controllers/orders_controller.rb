@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  before_action :user_authenticated?
 
   # GET /orders/1
   def show
