@@ -1,4 +1,5 @@
 class SchoolsController < ApplicationController
+  before_action :user_authenticated?
 
   # POST /schools
   def create

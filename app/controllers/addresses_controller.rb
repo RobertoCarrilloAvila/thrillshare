@@ -1,4 +1,5 @@
 class AddressesController < ApplicationController
+  before_action :user_authenticated?
   before_action :set_address, only: [:show, :update, :destroy]
 
   # GET /addresses

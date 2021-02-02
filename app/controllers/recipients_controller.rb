@@ -1,4 +1,5 @@
 class RecipientsController < ApplicationController
+  before_action :user_authenticated?
 
   # GET /recipients/1
   def show
